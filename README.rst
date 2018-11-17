@@ -19,7 +19,7 @@ To install pybind11, use conda or, do it manually from a clone of the pybind11 r
     sudo pip install .
 
 Notes
-++++++++++++++++++++++++++++++++++=
+++++++++++++++++++++++++++++++++++
 
 We simply compile modules in-place using cmake. No pip-installing, etc., which we'll get when we merge this into
 fwdpy11.  By default, cmake generates a debug build without optimizations.  To get a "release" build for benchmarking:
