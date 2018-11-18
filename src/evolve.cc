@@ -288,7 +288,7 @@ wfSlocusPop_ts(
         }
 }
 
-PYBIND11_MODULE(wright_fisher_slocus_ts, m)
+PYBIND11_MODULE(evolve, m)
 {
     m.doc() = "Evolution under a Wright-Fisher model using tree sequences.";
 
