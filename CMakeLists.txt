@@ -10,10 +10,20 @@ find_package(GSL REQUIRED)
 message(STATUS "GSL headers in ${GSL_INCLUDE_DIRS}")
 include_directories(BEFORE ${GSL_INCLUDE_DIRS})
 
-execute_process(COMMAND ${PYTHON_EXECUTABLE} -m fwdpy11 --fwdpy11_headers OUTPUT_VARIABLE FWDPY11_HEADER_LOCATION)
-execute_process(COMMAND ${PYTHON_EXECUTABLE} -m fwdpy11 --fwdpp_headers OUTPUT_VARIABLE FWDPP_HEADER_LOCATION)
-message(STATUS "Found fwdpy11 headers in ${FWDPY11_HEADER_LOCATION}")
-message(STATUS "Found fwdpp headers in ${FWDPP_HEADER_LOCATION}")
+execute_process(COMMAND ${PYTHON_EXECUTABLE} -m fwdpy11 --fwdpy11_headers OUTPUT_VARIABLE FWDPY11_HEADER_LOCATION
+    RESULT_VARIABLE RETCODE)
+if (NOT ${RETCODE} STREQUAL "0")
+    message(FATAL_ERROR "fwdpy11 headers could not be found")
+else()
+    message(STATUS "Found fwdpy11 headers in ${FWDPY11_HEADER_LOCATION}")
+endif()
+execute_process(COMMAND ${PYTHON_EXECUTABLE} -m fwdpy11 --fwdpp_headers OUTPUT_VARIABLE FWDPP_HEADER_LOCATION
+    RESULT_VARIABLE RETCODE)
+if (NOT ${RETCODE} STREQUAL "0")
+    message(FATAL_ERROR "fwdpp headers could not be found")
+else()
+    message(STATUS "Found fwdpp headers in ${FWDPP_HEADER_LOCATION}")
+endif()
 
 include_directories(BEFORE headers ${FWDPY11_HEADER_LOCATION} ${FWDPP_HEADER_LOCATION} )
 
