@@ -18,6 +18,29 @@ To install pybind11, use conda or, do it manually from a clone of the pybind11 r
     sudo make install
     sudo pip install .
 
+
+Building
+++++++++++++++++++++++++++++++
+
+To build in "release" mode:
+
+.. code-block:: bash
+
+    cmake -DCMAKE_BUILD_TYPE=Release .
+
+If you do not have fwdpy11 installed in the "usual" places, prepend the location.  For example:
+
+.. code-block:: bash
+
+    PYTHONPATH=$HOME/src/fwpy11 cmake -DCMAKE_BUILD_TYPE=Release .
+
+After the `cmake` step.
+
+.. code-block:: bash
+
+    make
+
+
 Notes
 ++++++++++++++++++++++++++++++++++
 
