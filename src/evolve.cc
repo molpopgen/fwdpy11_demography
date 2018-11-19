@@ -106,7 +106,7 @@ remap_ancient_samples(poptype &pop,
 
 // TODO: allow for neutral mutations in the future
 void
-wfSlocusPop_ts(
+evolve(
     const fwdpy11::GSLrng_t &rng, fwdpy11::SlocusPop &pop,
     fwdpy11::samplerecorder &sr, const unsigned simplification_interval,
     py::array_t<std::uint32_t> popsizes, //const double mu_neutral,
@@ -290,7 +290,7 @@ wfSlocusPop_ts(
 
 PYBIND11_MODULE(evolve, m)
 {
-    m.doc() = "Evolution under a Wright-Fisher model using tree sequences.";
+    m.doc() = "Evolution under generalized demography (with tree sequence recording).";
 
-    m.def("WFSlocusPop_ts", &wfSlocusPop_ts);
+    m.def("evolve", &evolve);
 }

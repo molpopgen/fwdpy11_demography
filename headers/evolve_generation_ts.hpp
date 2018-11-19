@@ -48,8 +48,18 @@ namespace fwdpy11
         const std::tuple<std::int32_t, std::int32_t>& parent_nodes,
         const std::int32_t generation, const std::int32_t next_index,
         poptype& pop, std::size_t& offspring_gamete,
-        mrecbin& mutation_recycling_bin,
-        grecbin& gamete_recycling_bin)
+        mrecbin& mutation_recycling_bin, grecbin& gamete_recycling_bin)
+    // This function handles the guts of making an offspring's gametes,
+    // by applying mutation and recombination functions.  The
+    // call to pop.tables.add_offspring_data records new info into
+    // node, edge, and mutation tables.  If it seems more logical
+    // to buffer those data separately, the logic of that function
+    // can be replicated with the result being data are stored elsewhere.
+    // A particular issue here is that the recording is setting the "deme"
+    // field of a node.  Ultimately, that MUST match up with the 
+    // offspring metadata.  To keep points of failure/error to a minimum,
+    // it seems reasonable to accept offspring metadata as an argument
+    // when a mating is recorded.
     {
         auto breakpoints = recmodel();
         auto new_mutations = fwdpp::generate_new_mutations(
@@ -74,11 +84,24 @@ namespace fwdpy11
             gamete_recycling_bin, pop.neutral, pop.selected);
         //TODO: generalize this for offspring deme != 0
         pop.tables.add_offspring_data(next_index, breakpoints, new_mutations,
-                                  parent_nodes, 0, generation);
+                                      parent_nodes, 0, generation);
         return next_index + 1;
     }
 
-    //TODO: need to track contribution to ancestral mutation counts!
+    // The goal here is one function that allows for generalized demography.
+    // We need to:
+    // 1. Provide a generalized mating function
+    // 2. Provide a means of recording matings.
+    // 3. Provide a means of setting the approprate fields in offspring metadata.
+    //
+    // On a more technical note, it is highly desirable that this function
+    // work for both SlocusPop and MlocusPop types.  Doing that means
+    // that mutation_model needs to be something totally anonymous, and 
+    // that breakpoint_function needs to be replaced with a similarly-anonymized
+    // function that can be used with fwdpp::mutate_recombine.  There's a good
+    // chance that this desired generalization means that we may need some new plumbing
+    // to replace that fwdpp function with sopmething a bit more general, but KRT
+    // need to have a look-see into that...
     template <typename rng_t, typename poptype, typename pick_parent1_fxn,
               typename pick_parent2_fxn, typename offspring_metadata_fxn,
               typename breakpoint_function, typename mutation_model>
