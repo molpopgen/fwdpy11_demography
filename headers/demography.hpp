@@ -20,5 +20,7 @@ namespace fwdpy11
                                  const std::size_t individual,
                                  const mating_recorder& mr)
             = 0;
+        virtual void update(const SlocusPop& pop) = 0;
+        virtual void update(const MlocusPop& pop) = 0;
     };
 } // namespace fwdpy11
