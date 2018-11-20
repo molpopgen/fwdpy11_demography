@@ -32,4 +32,5 @@ set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall")
 # These are the main modules
 pybind11_add_module(evolve MODULE src/evolve.cc)
 target_link_libraries(evolve PRIVATE GSL::gsl GSL::gslcblas)
+pybind11_add_module(demography MODULE src/demography.cc)
 
